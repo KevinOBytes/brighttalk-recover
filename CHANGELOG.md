@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.5] - 2024-01-19
+
+### Fixed
+- GitHub Actions workflow permissions
+- Code formatting with black
+- Type checking with mypy stubs
+
 ## [0.1.4] - 2024-01-19
 
 ### Added
