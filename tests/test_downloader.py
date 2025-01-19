@@ -2,6 +2,7 @@ import pytest
 import os
 from unittest.mock import patch, MagicMock
 from bt_recover.main import BrightTalkDownloader, FFmpegNotFoundError
+from bt_recover.exceptions import URLValidationError
 
 @pytest.fixture
 def mock_ffmpeg():
@@ -31,11 +32,11 @@ def test_validate_url(mock_ffmpeg):
     downloader = BrightTalkDownloader()
     
     # Should fail with invalid URL
-    with pytest.raises(ValueError):
+    with pytest.raises(URLValidationError):
         downloader.validate_url("not-a-url")
     
     # Should fail with non-m3u8 URL
-    with pytest.raises(ValueError):
+    with pytest.raises(URLValidationError):
         downloader.validate_url("https://example.com/video.mp4")
 
 def test_ffmpeg_path_resolution(mock_ffmpeg):
@@ -74,7 +75,7 @@ def test_url_validation(mock_ffmpeg, url, should_raise):
     """Test URL validation with different URLs."""
     downloader = BrightTalkDownloader()
     if should_raise:
-        with pytest.raises(ValueError):
+        with pytest.raises(URLValidationError):
             downloader.validate_url(url)
     else:
         # Mock the requests.head call

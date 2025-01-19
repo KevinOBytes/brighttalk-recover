@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.2] - 2024-01-19
+
+### Fixed
+- Test suite compatibility with URLValidationError
+- Added missing log method to BrightTalkDownloader
+- Improved test coverage
+
 ## [0.1.1] - 2024-01-19
 
 ### Added
