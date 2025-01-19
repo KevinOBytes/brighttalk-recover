@@ -83,3 +83,12 @@ def test_url_validation(mock_ffmpeg, url, should_raise):
             mock_response.status_code = 200
             mock_head.return_value = mock_response
             downloader.validate_url(url)  # Should not raise 
+
+def test_version():
+    """Test version is properly formatted."""
+    from bt_recover import __version__
+    assert isinstance(__version__, str)
+    # Version should be in format: x.y.z
+    parts = __version__.split('.')
+    assert len(parts) >= 2, "Version should have at least major.minor"
+    assert all(part.isdigit() for part in parts), "Version parts should be numeric" 
