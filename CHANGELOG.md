@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.4] - 2024-01-19
+
+### Added
+- Enhanced URL validation with actual HTTP checks
+- Better error messages for URL validation
+
+### Fixed
+- Integration test for URL validation
+- Improved error handling for network issues
+
 ## [0.1.3] - 2024-01-19
 
 ### Fixed
