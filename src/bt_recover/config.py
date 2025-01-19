@@ -13,16 +13,17 @@ DEFAULT_CONFIG = {
     "retry_attempts": 3,
 }
 
+
 class Config:
     """Manages application configuration."""
-    
+
     def __init__(self, config_path: Optional[Path] = None) -> None:
         self.config_path = config_path or Path.home() / ".bt-recover.json"
         self.config = self._load_config()
-    
+
     def _load_config(self) -> Dict[str, Any]:
         """Load configuration from file or return defaults."""
         if self.config_path.exists():
             with open(self.config_path) as f:
                 return {**DEFAULT_CONFIG, **json.load(f)}
-        return DEFAULT_CONFIG.copy() 
+        return DEFAULT_CONFIG.copy()

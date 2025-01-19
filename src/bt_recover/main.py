@@ -11,11 +11,17 @@ from .progress import DownloadProgress
 from .monitoring import timing_decorator
 import requests
 
+
 class BrightTalkDownloader:
     """Main downloader class."""
-    
-    def __init__(self, ffmpeg_path: Optional[str] = None, verbose: bool = False,
-                 quiet: bool = False, debug: bool = False) -> None:
+
+    def __init__(
+        self,
+        ffmpeg_path: Optional[str] = None,
+        verbose: bool = False,
+        quiet: bool = False,
+        debug: bool = False,
+    ) -> None:
         """Initialize the downloader."""
         self.verbose = verbose
         self.quiet = quiet
@@ -25,9 +31,13 @@ class BrightTalkDownloader:
     def _get_ffmpeg_version(self) -> str:
         """Get ffmpeg version string."""
         try:
-            result = subprocess.run([self.ffmpeg_path, '-version'],
-                                  capture_output=True, text=True, check=True)
-            return result.stdout.split('\n')[0]
+            result = subprocess.run(
+                [self.ffmpeg_path, "-version"],
+                capture_output=True,
+                text=True,
+                check=True,
+            )
+            return result.stdout.split("\n")[0]
         except subprocess.CalledProcessError as e:
             raise FFmpegNotFoundError(f"Error getting ffmpeg version: {e}")
 
@@ -37,19 +47,23 @@ class BrightTalkDownloader:
         try:
             self.validate_url(url)
             os.makedirs(os.path.dirname(os.path.abspath(output_path)), exist_ok=True)
-            
+
             if os.path.exists(output_path) and not force:
                 raise DownloadError(f"Output file already exists: {output_path}")
-            
+
             stream = ffmpeg.input(url)
             stream = ffmpeg.output(stream, output_path)
-            
+
             if self.verbose:
                 print(f"Starting download: {url} -> {output_path}")
-            
-            ffmpeg.run(stream, cmd=self.ffmpeg_path, capture_stdout=self.quiet,
-                      capture_stderr=self.quiet)
-            
+
+            ffmpeg.run(
+                stream,
+                cmd=self.ffmpeg_path,
+                capture_stdout=self.quiet,
+                capture_stderr=self.quiet,
+            )
+
             return True
         except Exception as e:
             if self.debug:
@@ -60,23 +74,23 @@ class BrightTalkDownloader:
         """Resolve the path to ffmpeg binary."""
         if custom_path and self._verify_ffmpeg(custom_path):
             return custom_path
-        
-        ffmpeg_path = shutil.which('ffmpeg')
+
+        ffmpeg_path = shutil.which("ffmpeg")
         if ffmpeg_path and self._verify_ffmpeg(ffmpeg_path):
             return ffmpeg_path
-        
+
         common_locations = [
-            '/usr/bin/ffmpeg',
-            '/usr/local/bin/ffmpeg',
-            '/opt/homebrew/bin/ffmpeg',
-            'C:\\Program Files\\ffmpeg\\bin\\ffmpeg.exe',
-            'C:\\Program Files (x86)\\ffmpeg\\bin\\ffmpeg.exe',
+            "/usr/bin/ffmpeg",
+            "/usr/local/bin/ffmpeg",
+            "/opt/homebrew/bin/ffmpeg",
+            "C:\\Program Files\\ffmpeg\\bin\\ffmpeg.exe",
+            "C:\\Program Files (x86)\\ffmpeg\\bin\\ffmpeg.exe",
         ]
-        
+
         for location in common_locations:
             if os.path.isfile(location) and self._verify_ffmpeg(location):
                 return location
-        
+
         raise FFmpegNotFoundError(
             "ffmpeg not found. Please install ffmpeg or provide path using --ffmpeg option. "
             "See https://ffmpeg.org/download.html for installation instructions."
@@ -85,7 +99,7 @@ class BrightTalkDownloader:
     def _verify_ffmpeg(self, path: str) -> bool:
         """Verify that ffmpeg exists and is executable."""
         try:
-            subprocess.run([path, '-version'], capture_output=True, check=True)
+            subprocess.run([path, "-version"], capture_output=True, check=True)
             return True
         except (subprocess.SubprocessError, OSError):
             return False
@@ -93,20 +107,22 @@ class BrightTalkDownloader:
     def validate_url(self, url: str) -> None:
         """
         Validate the provided URL.
-        
+
         Args:
             url: URL to validate
-            
+
         Raises:
             URLValidationError: If URL is invalid or not accessible
         """
-        if not url.endswith('.m3u8'):
+        if not url.endswith(".m3u8"):
             raise URLValidationError("URL must end with .m3u8")
-        
+
         try:
             response = requests.head(url, timeout=10)
             if response.status_code != 200:
-                raise URLValidationError(f"URL returned status code {response.status_code}")
+                raise URLValidationError(
+                    f"URL returned status code {response.status_code}"
+                )
         except requests.RequestException as e:
             raise URLValidationError(f"Failed to access URL: {str(e)}")
 
@@ -118,4 +134,4 @@ class BrightTalkDownloader:
             return
         if level == "info" and not self.verbose and not self.debug:
             return
-        print(f"{level.upper()}: {message}") 
+        print(f"{level.upper()}: {message}")

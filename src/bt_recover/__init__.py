@@ -14,4 +14,4 @@ __all__ = [
     "__version__",
     "BrightTalkDownloader",
     "FFmpegNotFoundError",
-] 
+]
