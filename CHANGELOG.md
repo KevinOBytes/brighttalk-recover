@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.3] - 2024-01-19
+
+### Fixed
+- Integration test compatibility with URLValidationError
+- Improved test consistency across unit and integration tests
+
 ## [0.1.2] - 2024-01-19
 
 ### Fixed

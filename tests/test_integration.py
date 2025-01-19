@@ -5,6 +5,7 @@ import pytest
 import tempfile
 from pathlib import Path
 from bt_recover.main import BrightTalkDownloader
+from bt_recover.exceptions import URLValidationError
 
 @pytest.fixture
 def temp_output():
@@ -49,11 +50,11 @@ def test_url_validation():
     downloader = BrightTalkDownloader()
     
     # Test with invalid URL
-    with pytest.raises(ValueError):
+    with pytest.raises(URLValidationError):
         downloader.validate_url("https://example.com/not-a-video.txt")
     
     # Test with non-existent URL
-    with pytest.raises(ValueError):
+    with pytest.raises(URLValidationError):
         downloader.validate_url("https://example.com/fake.m3u8")
 
 def test_ffmpeg_error_handling(temp_output):
