@@ -10,6 +10,11 @@ All notable changes to this project will be documented in this file.
 - Type hints and documentation
 - Docker support
 - GitHub Actions workflows
+- Added version testing
+
+### Fixed
+- Version number consistency
+- Test suite improvements
 
 ## [0.1.0] - 2024-01-19
 
