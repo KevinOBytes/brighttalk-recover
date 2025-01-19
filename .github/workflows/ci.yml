@@ -34,6 +34,9 @@ jobs:
     - name: Run integration tests
       run: |
         pytest tests/test_integration.py -v
+      env:
+        # Skip actual download test if no URL provided
+        INTEGRATION_TEST_URL: ${{ secrets.INTEGRATION_TEST_URL }}
     - name: Type check
       run: |
         mypy src/bt_recover
@@ -43,7 +46,7 @@ jobs:
         flake8 src/bt_recover
 
   docker:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
     - uses: actions/checkout@v4
     - name: Build Docker image
