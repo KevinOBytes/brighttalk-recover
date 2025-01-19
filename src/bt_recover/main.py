@@ -92,4 +92,14 @@ class BrightTalkDownloader:
     def validate_url(self, url: str) -> None:
         """Validate the provided URL."""
         if not url.endswith('.m3u8'):
-            raise URLValidationError("URL must end with .m3u8") 
+            raise URLValidationError("URL must end with .m3u8")
+
+    def log(self, message: str, level: str = "info") -> None:
+        """Log a message based on verbosity settings."""
+        if self.quiet and level != "error":
+            return
+        if level == "debug" and not self.debug:
+            return
+        if level == "info" and not self.verbose and not self.debug:
+            return
+        print(f"{level.upper()}: {message}") 
