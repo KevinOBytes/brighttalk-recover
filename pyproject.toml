@@ -1,0 +1,49 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "bt-recover"
+dynamic = ["version"]
+description = "Download BrightTalk videos from m3u8 streams"
+readme = "README.md"
+requires-python = ">=3.7"
+license = "MIT"
+keywords = ["brighttalk", "video", "downloader", "m3u8"]
+authors = [
+    { name = "Kevin O'Connor", email = "kevin@kevinbytes.com" },
+]
+dependencies = [
+    "ffmpeg-python>=0.2.0",
+    "requests>=2.31.0",
+    "tqdm>=4.65.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/KevinOBytes/bt-recover"
+Documentation = "https://github.com/KevinOBytes/bt-recover#readme"
+Issues = "https://github.com/KevinOBytes/bt-recover/issues"
+
+[project.scripts]
+bt-recover = "bt_recover.main:main"
+
+[tool.hatch.version]
+path = "src/bt_recover/__version__.py"
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "black>=23.12.1",
+    "flake8>=6.0.0",
+    "mypy>=1.0.0",
+    "pre-commit>=3.5.0",
+    "types-requests>=2.31.0",
+    "pytest-cov>=4.1.0",
+    "tox>=4.11.4",
+]
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/bt_recover"] 
