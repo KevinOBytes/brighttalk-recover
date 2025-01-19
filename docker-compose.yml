@@ -2,7 +2,10 @@ version: '3.8'
 
 services:
   bt-recover:
-    build: .
+    build:
+      context: .
+      args:
+        PYTHON_VERSION: "3.10"
     volumes:
       - ./output:/home/appuser/output
     environment:

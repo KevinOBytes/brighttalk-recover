@@ -15,8 +15,13 @@ A Python command-line tool to download BrightTalk videos from m3u8 streams. This
 
 ## Requirements
 
-- Python 3.10 or higher
+- Python 3.10 or higher (tested on 3.10, 3.11, and 3.12)
 - ffmpeg (runtime system requirement - not needed for installation)
+
+### System Requirements
+
+- Recommended OS: Ubuntu 24.04 LTS or newer
+- Other Linux distributions, macOS, and Windows are also supported
 
 ### Installing ffmpeg
 
