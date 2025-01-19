@@ -9,6 +9,7 @@ import ffmpeg
 from .exceptions import FFmpegNotFoundError, URLValidationError, DownloadError
 from .progress import DownloadProgress
 from .monitoring import timing_decorator
+import requests
 
 class BrightTalkDownloader:
     """Main downloader class."""
@@ -90,9 +91,24 @@ class BrightTalkDownloader:
             return False
 
     def validate_url(self, url: str) -> None:
-        """Validate the provided URL."""
+        """
+        Validate the provided URL.
+        
+        Args:
+            url: URL to validate
+            
+        Raises:
+            URLValidationError: If URL is invalid or not accessible
+        """
         if not url.endswith('.m3u8'):
             raise URLValidationError("URL must end with .m3u8")
+        
+        try:
+            response = requests.head(url, timeout=10)
+            if response.status_code != 200:
+                raise URLValidationError(f"URL returned status code {response.status_code}")
+        except requests.RequestException as e:
+            raise URLValidationError(f"Failed to access URL: {str(e)}")
 
     def log(self, message: str, level: str = "info") -> None:
         """Log a message based on verbosity settings."""
