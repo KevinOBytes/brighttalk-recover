@@ -2,7 +2,6 @@
 
 from typing import Dict, Any, Optional
 from pathlib import Path
-import os
 import json
 
 DEFAULT_CONFIG = {

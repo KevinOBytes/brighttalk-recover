@@ -1,13 +1,11 @@
 """Main module for BrightTalk-Recover."""
 
 import os
-import sys
 import shutil
 import subprocess
 from typing import Optional
 import ffmpeg
 from .exceptions import FFmpegNotFoundError, URLValidationError, DownloadError
-from .progress import DownloadProgress
 from .monitoring import timing_decorator
 import requests
 
@@ -43,13 +41,25 @@ class BrightTalkDownloader:
 
     @timing_decorator
     def download(self, url: str, output_path: str, force: bool = False) -> bool:
-        """Download and process the video."""
+        """
+        Download and process the video.
+
+        Args:
+            url: Source m3u8 URL
+            output_path: Destination file path
+            force: Overwrite existing file if True
+
+        Returns:
+            bool: True if download successful
+        """
         try:
             self.validate_url(url)
-            os.makedirs(os.path.dirname(os.path.abspath(output_path)), exist_ok=True)
+            output_dir = os.path.dirname(os.path.abspath(output_path))
+            os.makedirs(output_dir, exist_ok=True)
 
             if os.path.exists(output_path) and not force:
-                raise DownloadError(f"Output file already exists: {output_path}")
+                msg = f"Output file already exists: {output_path}"
+                raise DownloadError(msg)
 
             stream = ffmpeg.input(url)
             stream = ffmpeg.output(stream, output_path)
@@ -79,22 +89,11 @@ class BrightTalkDownloader:
         if ffmpeg_path and self._verify_ffmpeg(ffmpeg_path):
             return ffmpeg_path
 
-        common_locations = [
-            "/usr/bin/ffmpeg",
-            "/usr/local/bin/ffmpeg",
-            "/opt/homebrew/bin/ffmpeg",
-            "C:\\Program Files\\ffmpeg\\bin\\ffmpeg.exe",
-            "C:\\Program Files (x86)\\ffmpeg\\bin\\ffmpeg.exe",
-        ]
-
-        for location in common_locations:
-            if os.path.isfile(location) and self._verify_ffmpeg(location):
-                return location
-
-        raise FFmpegNotFoundError(
-            "ffmpeg not found. Please install ffmpeg or provide path using --ffmpeg option. "
-            "See https://ffmpeg.org/download.html for installation instructions."
+        msg = (
+            "ffmpeg not found. Please install ffmpeg or provide path with "
+            "--ffmpeg option. See https://ffmpeg.org/download.html"
         )
+        raise FFmpegNotFoundError(msg)
 
     def _verify_ffmpeg(self, path: str) -> bool:
         """Verify that ffmpeg exists and is executable."""

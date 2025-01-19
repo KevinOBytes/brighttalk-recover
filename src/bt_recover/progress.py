@@ -1,8 +1,6 @@
 """Progress monitoring utilities."""
 
-from typing import Optional
 from tqdm import tqdm
-import ffmpeg
 
 
 class DownloadProgress:
@@ -10,7 +8,11 @@ class DownloadProgress:
 
     def __init__(self, total_bytes: int, desc: str = "Downloading") -> None:
         self.pbar = tqdm(
-            total=total_bytes, desc=desc, unit="B", unit_scale=True, unit_divisor=1024
+            total=total_bytes,
+            desc=desc,
+            unit="B",
+            unit_scale=True,
+            unit_divisor=1024,
         )
 
     def update(self, chunk_size: int) -> None:

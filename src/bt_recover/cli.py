@@ -3,8 +3,6 @@
 import argparse
 import sys
 from typing import List, Optional
-from . import __version__
-from .config import Config
 from .exceptions import BTRecoverError
 
 
@@ -22,8 +20,7 @@ def main(argv: Optional[List[str]] = None) -> int:
     """Main entry point for the CLI."""
     try:
         parser = create_parser()
-        args = parser.parse_args(argv)
-        config = Config()
+        _ = parser.parse_args(argv)  # Use _ for unused variable
         # ... implementation ...
         return 0
     except BTRecoverError as e:

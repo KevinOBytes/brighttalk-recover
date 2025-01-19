@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.6] - 2024-01-19
+
+### Fixed
+- Removed unused imports
+- Fixed line length issues
+- Improved code formatting per flake8
+
 ## [0.1.5] - 2024-01-19
 
 ### Fixed
