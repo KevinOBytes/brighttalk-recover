@@ -56,4 +56,17 @@ packages = ["src/bt_recover"]
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 python_files = ["test_*.py"]
-addopts = "-v --cov=bt_recover --cov-report=term-missing" 
+addopts = "-v --cov=bt_recover --cov-report=term-missing"
+
+[tool.mypy]
+ignore_missing_imports = true
+disallow_untyped_defs = true
+check_untyped_defs = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_return_any = true
+strict_optional = true
+
+[[tool.mypy.overrides]]
+module = ["ffmpeg.*"]
+ignore_missing_imports = true 
