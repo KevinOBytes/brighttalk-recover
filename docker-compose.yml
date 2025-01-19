@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  bt-recover:
+    build: .
+    volumes:
+      - ./output:/home/appuser/output
+    environment:
+      - BT_URL=${BT_URL}
+      - BT_OUTPUT=${BT_OUTPUT}
+    healthcheck:
+      test: ["CMD", "python", "-c", "import bt_recover"]
+      interval: 30s
+      timeout: 10s
+      retries: 3 
