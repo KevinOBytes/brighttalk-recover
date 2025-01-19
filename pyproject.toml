@@ -41,9 +41,19 @@ dev = [
     "pytest-cov>=4.1.0",
     "tox>=4.11.4",
 ]
+test = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.1.0",
+    "pytest-mock>=3.10.0",
+]
 
 [tool.hatch.metadata]
 allow-direct-references = true
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/bt_recover"] 
+packages = ["src/bt_recover"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+addopts = "-v --cov=bt_recover --cov-report=term-missing" 
