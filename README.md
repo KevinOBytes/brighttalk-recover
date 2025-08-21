@@ -1,5 +1,11 @@
 # BrightTalk-Recover
 
+![PyPI](https://img.shields.io/pypi/v/bt-recover)
+![Python Versions](https://img.shields.io/pypi/pyversions/bt-recover)
+![License](https://img.shields.io/github/license/KevinOBytes/brighttalk-recover)
+![CI](https://github.com/KevinOBytes/brighttalk-recover/actions/workflows/ci.yml/badge.svg)
+![Docker](https://img.shields.io/badge/ghcr.io-kevinobytes%2Fbt--recover-blue)
+
 A Python command-line tool to download BrightTalk videos from m3u8 streams. This tool uses ffmpeg to efficiently download and process video streams.
 
 ## Features
@@ -120,13 +126,30 @@ bt-recover --url "https://cdn.brighttalk.com/...m3u8" --output "video.mp4" --dry
 
 ### Using Pre-built Image
 ```bash
-docker pull ghcr.io/KevinOBytes/bt-recover:latest
+docker pull ghcr.io/kevinobytes/bt-recover:latest
 
-docker run --rm -v "$(pwd):/home/appuser/output" ghcr.io/KevinOBytes/bt-recover:latest \
+docker run --rm \
+    -v "$(pwd):/home/appuser/output" \
+    ghcr.io/kevinobytes/bt-recover:latest \
     --url "https://cdn.brighttalk.com/...m3u8" \
     --output "/home/appuser/output/video.mp4"
 ```
 
+Latest image tags
+- The `latest` tag is built automatically from the `main` branch by GitHub Actions.
+- Release tags (e.g., `v1.2.3`) and commit `sha` tags are also pushed.
+
+### Using Environment Variables with Docker
+You can pass `BT_URL` and `BT_OUTPUT` instead of CLI flags:
+```bash
+export BT_URL="https://cdn.brighttalk.com/...m3u8"
+export BT_OUTPUT="/home/appuser/output/video.mp4"
+
+docker run --rm \
+    -v "$(pwd):/home/appuser/output" \
+    -e BT_URL -e BT_OUTPUT \
+    ghcr.io/kevinobytes/bt-recover:latest
+```
 ### Building Locally
 
 ```bash

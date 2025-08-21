@@ -1,5 +1,6 @@
 # Build stage
-FROM python:3.10-slim AS builder
+ARG PYTHON_VERSION=3.10
+FROM python:${PYTHON_VERSION}-slim AS builder
 
 # Install build dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -15,7 +16,7 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Runtime stage
-FROM python:3.10-slim
+FROM python:${PYTHON_VERSION}-slim
 
 # Install ffmpeg
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -32,9 +33,9 @@ WORKDIR /home/appuser
 RUN mkdir -p /home/appuser/output && chown -R appuser:appuser /home/appuser/output
 USER appuser
 
-# Copy application code
+# Copy application code (package)
 COPY --chown=appuser:appuser src/bt_recover ./bt_recover
 
-# Set entrypoint
-ENTRYPOINT ["python", "-m", "bt_recover.main"]
+# Default to module entry point (CLI)
+ENTRYPOINT ["python", "-m", "bt_recover"]
 

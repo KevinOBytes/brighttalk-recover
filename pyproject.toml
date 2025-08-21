@@ -18,6 +18,18 @@ dependencies = [
     "requests>=2.31.0",
     "tqdm>=4.65.0",
 ]
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Operating System :: OS Independent",
+    "Environment :: Console",
+    "Topic :: Multimedia :: Video",
+    "Topic :: Utilities",
+]
 
 [project.urls]
 Homepage = "https://github.com/KevinOBytes/bt-recover"
@@ -25,7 +37,7 @@ Documentation = "https://github.com/KevinOBytes/bt-recover#readme"
 Issues = "https://github.com/KevinOBytes/bt-recover/issues"
 
 [project.scripts]
-bt-recover = "bt_recover.main:main"
+bt-recover = "bt_recover.cli:main"
 
 [tool.hatch.version]
 path = "src/bt_recover/__version__.py"
