@@ -196,9 +196,9 @@ brighttalk-recover/
 │       ├── progress.py      # Progress tracking
 │       └── monitoring.py    # Performance monitoring
 └── tests/
-    ├── __init__.py
-    ├── conftest.py         # Test fixtures
-    └── test_downloader.py
+    ├── conftest.py           # Test fixtures
+    ├── test_downloader.py    # Unit tests
+    └── test_integration.py   # Integration tests (require ffmpeg)
 ```
 
 ### Running Tests
@@ -252,12 +252,11 @@ Key development dependencies include:
 
 ### Configuration
 
-The application supports various configuration methods:
+The application currently supports:
 1. Command line arguments
 2. Environment variables
-3. Configuration file (~/.bt-recover.json)
 
-Example configuration file:
+Note: A user config file (e.g., `~/.bt-recover.json`) is planned but not yet wired into the CLI. The example below shows the intended format:
 ```json
 {
     "ffmpeg_path": "/usr/local/bin/ffmpeg",
@@ -307,6 +306,10 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## Changelog
 
 See [CHANGELOG.md](CHANGELOG.md) for release history.
+
+## Releasing
+
+See [RELEASE.md](RELEASE.md) for the release process (version bump, push to main, tag to trigger PyPI and Docker publishes).
 
 ## Troubleshooting
 
