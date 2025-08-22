@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.7] - 2025-08-22
+
+### Fixed
+- CI: corrected YAML syntax and consolidated workflows.
+- Style: Black formatting fixes for cli.py to satisfy CI.
+- Docs: README updates (config section, tests listing, release link).
+- CI: made Test PyPI workflow manual/optional to avoid accidental runs.
+
 ## [0.1.6] - 2024-01-19
 
 ### Fixed
