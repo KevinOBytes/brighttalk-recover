@@ -13,10 +13,11 @@
 - Tag push triggers:
   - Docker publish with the version tag and commit sha.
   - PyPI publish via trusted publishing.
+    - GitHub Release auto-created with generated notes.
 
 4. Post-release
 - Set GHCR package visibility to Public (one-time step in GitHub Packages, after first publish).
-- Create a GitHub release from the tag and include release notes.
+- A GitHub Release is created automatically; you can edit the notes if desired.
 
 ## Commands
 ```bash
