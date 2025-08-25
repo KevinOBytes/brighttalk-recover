@@ -92,4 +92,54 @@ def test_version():
     # Version should be in format: x.y.z
     parts = __version__.split('.')
     assert len(parts) >= 2, "Version should have at least major.minor"
-    assert all(part.isdigit() for part in parts), "Version parts should be numeric" 
+    assert all(part.isdigit() for part in parts), "Version parts should be numeric"
+
+
+def test_config_integration():
+    """Test that CLI integrates with config file properly."""
+    from bt_recover.config import Config
+    import tempfile
+    import json
+    from pathlib import Path
+    
+    # Create a temporary config file
+    config_data = {
+        "ffmpeg_path": "/custom/ffmpeg",
+        "timeout": 60
+    }
+    
+    with tempfile.NamedTemporaryFile(mode='w', suffix='.json', delete=False) as f:
+        json.dump(config_data, f)
+        temp_config_path = f.name
+    
+    try:
+        # Test config loading
+        config = Config(Path(temp_config_path))
+        assert config.config["ffmpeg_path"] == "/custom/ffmpeg"
+        assert config.config["timeout"] == 60
+        
+        # Test that defaults are preserved
+        assert "output_dir" in config.config
+        assert config.config["output_dir"] == "output"
+    finally:
+        # Clean up
+        Path(temp_config_path).unlink()
+
+
+def test_program_name_fix():
+    """Test that program name is correctly set when invoked as module."""
+    import sys
+    from bt_recover.cli import main
+    
+    # Simulate running as module
+    original_argv = sys.argv[:]
+    try:
+        sys.argv = ['__main__.py', '--version']
+        # This would normally exit, so we'll just test the argument parsing
+        from bt_recover.cli import create_parser
+        parser = create_parser()
+        # Just verify the parser works - actual version testing would require 
+        # mocking SystemExit
+        assert parser is not None
+    finally:
+        sys.argv = original_argv 

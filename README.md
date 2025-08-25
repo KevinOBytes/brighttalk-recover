@@ -73,8 +73,8 @@ source venv/bin/activate  # On Windows: venv\Scripts\activate
 pip install -r requirements-dev.txt
 pip install -e .
 
-# Install pre-commit hooks
-pre-commit install
+# Set up development environment (pre-commit hooks, etc.)
+python setup-dev.py
 ```
 
 ## Usage
@@ -252,11 +252,15 @@ Key development dependencies include:
 
 ### Configuration
 
-The application currently supports:
+The application supports configuration through multiple sources (in order of precedence):
 1. Command line arguments
 2. Environment variables
+3. Configuration file
 
-Note: A user config file (e.g., `~/.bt-recover.json`) is planned but not yet wired into the CLI. The example below shows the intended format:
+#### Configuration File
+
+Create a configuration file at `~/.bt-recover.json` (or specify custom path with `--config`):
+
 ```json
 {
     "ffmpeg_path": "/usr/local/bin/ffmpeg",
@@ -265,6 +269,11 @@ Note: A user config file (e.g., `~/.bt-recover.json`) is planned but not yet wir
     "timeout": 30,
     "retry_attempts": 3
 }
+```
+
+Example usage with custom config file:
+```bash
+bt-recover --config /path/to/config.json --url "https://example.com/video.m3u8" --output video.mp4
 ```
 
 ### Monitoring and Debugging
