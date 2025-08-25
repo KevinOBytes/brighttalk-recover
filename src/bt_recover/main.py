@@ -78,6 +78,8 @@ class BrightTalkDownloader:
             if self.verbose:
                 print(f"Starting download: {url} -> {output_path}")
 
+            # Note: Progress bar integration would require ffmpeg progress reporting
+            # which needs more complex implementation with ffmpeg callbacks
             ffmpeg.run(
                 stream,
                 cmd=self.ffmpeg_path,
