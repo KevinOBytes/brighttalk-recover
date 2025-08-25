@@ -5,6 +5,7 @@ import os
 import sys
 from typing import List, Optional
 
+from .config import Config
 from .exceptions import BTRecoverError, FFmpegNotFoundError, URLValidationError
 from .main import BrightTalkDownloader
 from . import __version__
@@ -29,6 +30,12 @@ def create_parser() -> argparse.ArgumentParser:
         default=None,
         help="Custom path to ffmpeg binary",
     )
+    parser.add_argument(
+        "--config",
+        dest="config_path",
+        default=None,
+        help="Path to configuration file (default: ~/.bt-recover.json)",
+    )
     parser.add_argument("--dry-run", action="store_true", help="Validate only")
     parser.add_argument("--force", action="store_true", help="Overwrite output file")
     parser.add_argument("--verbose", action="store_true", help="Verbose output")
@@ -46,16 +53,23 @@ def main(argv: Optional[List[str]] = None) -> int:
     parser = create_parser()
     args = parser.parse_args(argv)
 
-    # Fallback to environment variables if flags are missing
+    # Load configuration
+    from pathlib import Path
+
+    config_path = Path(args.config_path) if args.config_path else None
+    config = Config(config_path)
+
+    # Fallback order: CLI args -> environment variables -> config file -> defaults
     url = args.url or os.getenv("BT_URL")
     output = args.output or os.getenv("BT_OUTPUT")
+    ffmpeg_path = args.ffmpeg_path or config.config.get("ffmpeg_path")
 
     if not url or not output:
         parser.error("--url and --output are required (or set BT_URL and BT_OUTPUT)")
 
     try:
         downloader = BrightTalkDownloader(
-            ffmpeg_path=args.ffmpeg_path,
+            ffmpeg_path=ffmpeg_path,
             verbose=args.verbose,
             quiet=args.quiet,
             debug=args.debug,
