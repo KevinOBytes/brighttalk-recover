@@ -55,6 +55,7 @@ def main(argv: Optional[List[str]] = None) -> int:
 
     # Load configuration
     from pathlib import Path
+
     config_path = Path(args.config_path) if args.config_path else None
     config = Config(config_path)
 
