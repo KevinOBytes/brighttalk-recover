@@ -1,4 +1,10 @@
-"""Progress monitoring utilities."""
+"""Progress monitoring utilities.
+
+Note: This module provides progress monitoring capabilities but is not currently
+integrated into the main download process. Integration would require implementing
+ffmpeg progress callbacks or using alternative download methods that support
+progress reporting.
+"""
 
 from tqdm import tqdm
 
