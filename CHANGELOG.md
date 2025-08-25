@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Unreleased]
+
+### Added
+- Configuration file support (--config option and ~/.bt-recover.json)
+- Basic logging configuration with debug/verbose level support
+- Development environment setup script (setup-dev.py)
+
+### Fixed
+- CLI program name now shows 'bt-recover' instead of '__main__.py' when invoked with `python -m bt_recover`
+- Improved integration between CLI and configuration management
+
+### Changed
+- Updated README documentation to reflect new configuration support
+- Enhanced error handling and logging throughout the application
+
 ## [0.1.7] - 2025-08-22
 
 ### Fixed

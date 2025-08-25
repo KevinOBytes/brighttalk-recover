@@ -1,5 +1,6 @@
 """Main module for BrightTalk-Recover."""
 
+import logging
 import os
 import shutil
 import subprocess
@@ -7,7 +8,11 @@ from typing import Optional
 import ffmpeg
 from .exceptions import FFmpegNotFoundError, URLValidationError, DownloadError
 from .monitoring import timing_decorator
+from .progress import DownloadProgress
 import requests
+
+# Configure basic logging
+logging.basicConfig(level=logging.WARNING, format='%(levelname)s: %(message)s')
 
 
 class BrightTalkDownloader:
@@ -25,6 +30,12 @@ class BrightTalkDownloader:
         self.quiet = quiet
         self.debug = debug
         self.ffmpeg_path = self._resolve_ffmpeg_path(ffmpeg_path)
+        
+        # Configure logging level based on flags
+        if debug:
+            logging.getLogger().setLevel(logging.DEBUG)
+        elif verbose:
+            logging.getLogger().setLevel(logging.INFO)
 
     def _get_ffmpeg_version(self) -> str:
         """Get ffmpeg version string."""
